@@ -39,7 +39,7 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      FR_AMP,         FR_EACU,        FR_DQUO,        FR_APOS,        FR_LPRN,        TT(2),                                          TT(2),          FR_MINS,        FR_EGRV,        FR_UNDS,        FR_CCED,        FR_AGRV,        KC_INSERT,
-    ALT_0198,         FR_A,           FR_Z,           KC_E,           KC_R,           KC_T,           FR_ASTR,                                        FR_DLR,         KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           FR_CIRC,
+    KC_TAB,         FR_A,           FR_Z,           KC_E,           KC_R,           KC_T,           FR_ASTR,                                        FR_DLR,         KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           FR_CIRC,
     KC_LSHIFT,      FR_Q,           KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           FR_M,           KC_RSHIFT,
     KC_LCTRL,       FR_W,           KC_X,           KC_C,           KC_V,           KC_B,           KC_APPLICATION,                                 TT(1),          KC_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
     KC_CAPSLOCK,    KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_UP,          KC_DOWN,        KC_LGUI,        KC_RALT,        FR_UGRV,
@@ -133,6 +133,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+
+void led_set_user(uint8_t usb_led) {
+    if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+        ergodox_right_led_3_on();
+    } else {
+        ergodox_right_led_3_off();
+    }
+}
+
 uint32_t layer_state_set_user(uint32_t state) {
   uint8_t layer = biton32(state);
   ergodox_board_led_off();
@@ -147,24 +156,8 @@ uint32_t layer_state_set_user(uint32_t state) {
       ergodox_right_led_2_on();
       break;
     case 3:
-      ergodox_right_led_3_on();
-      break;
-    case 4:
       ergodox_right_led_1_on();
       ergodox_right_led_2_on();
-      break;
-    case 5:
-      ergodox_right_led_1_on();
-      ergodox_right_led_3_on();
-      break;
-    case 6:
-      ergodox_right_led_2_on();
-      ergodox_right_led_3_on();
-      break;
-    case 7:
-      ergodox_right_led_1_on();
-      ergodox_right_led_2_on();
-      ergodox_right_led_3_on();
       break;
     default:
       break;
@@ -172,6 +165,10 @@ uint32_t layer_state_set_user(uint32_t state) {
   return state;
 };
 
-
+// if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
+//         ergodox_right_led_2_on();
+//     } else {
+//         ergodox_right_led_2_off();
+//     }
 /* Custom ALT + UNICODE */
 
