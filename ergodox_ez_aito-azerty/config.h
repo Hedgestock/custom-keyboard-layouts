@@ -4,8 +4,7 @@
 */
 #define ORYX_CONFIGURATOR
 #define PERMISSIVE_HOLD
-#define FORCE_NKRO
 
 #undef IGNORE_MOD_TAP_INTERRUPT
 
-#define FIRMWARE_VERSION u8"9wGj7/Qqabn"
+#define FIRMWARE_VERSION u8"9wGj7/z9bpM"
