@@ -1,36 +1,24 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "action_layer.h"
 #include "keymap_french.h"
 #include "keymap_bepo.h"
-// #include "keymap_steno.h"
+#include "keymap_steno.h"
 
-#define KC_MAC_UNDO LGUI(KC_Z)
-#define KC_MAC_CUT LGUI(KC_X)
-#define KC_MAC_COPY LGUI(KC_C)
-#define KC_MAC_PASTE LGUI(KC_V)
-#define KC_PC_UNDO LCTL(KC_Z)
-#define KC_PC_CUT LCTL(KC_X)
-#define KC_PC_COPY LCTL(KC_C)
-#define KC_PC_PASTE LCTL(KC_V)
-#define ES_LESS_MAC KC_GRAVE
-#define ES_GRTR_MAC LSFT(KC_GRAVE)
-#define ES_BSLS_MAC ALGR(KC_6)
-#define NO_PIPE_ALT KC_GRAVE
-#define NO_BSLS_ALT KC_EQUAL
-#define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
+#define TXBOLT 3 // TxBolt Steno Virtual Serial
 
 enum my_keycodes {
   XMAS1 = SAFE_RANGE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [0] = LAYOUT_ergodox_pretty(
+[0] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      FR_AMP,         FR_EACU,        FR_DQUO,        FR_APOS,        FR_LPRN,        TT(2),                                          TT(2),          FR_MINS,        FR_EGRV,        FR_UNDS,        FR_CCED,        FR_AGRV,        KC_INSERT,
     KC_TAB,         FR_A,           FR_Z,           KC_E,           KC_R,           KC_T,           FR_ASTR,                                        FR_DLR,         KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           FR_CIRC,
     LSFT_T(KC_CAPSLOCK),FR_Q,       KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           FR_M,           RSFT_T(KC_CAPSLOCK),
-    KC_LCTRL,       FR_W,           KC_X,           KC_C,           KC_V,           KC_B,           KC_APPLICATION,                                 TT(1),          KC_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
+    KC_LCTRL,       FR_W,           KC_X,           KC_C,           KC_V,           KC_B,           TT(3),                                          TT(1),          KC_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
     FR_LESS,        KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_UP,          KC_DOWN,        KC_LGUI,        KC_RALT,        FR_UGRV,
-                                                                                                    KC_HOME,        KC_END,         KC_HOME,        KC_END,
+                                                                                                    KC_HOME,        KC_APPLICATION, TT(3),           KC_END,
                                                                                                                     KC_ENTER,       KC_PGUP,
                                                                                     KC_BSPACE,      KC_DELETE,      TT(1),          KC_PGDOWN,      KC_ENTER,       KC_SPACE
   ),
@@ -54,16 +42,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
-  // [3] = LAYOUT_ergodox_pretty(
-  //   STN_N1,         STN_N2,         STN_N3,         STN_N4,         STN_N5,         STN_N6,         KC_TRANSPARENT,                                 KC_TRANSPARENT, STN_N7,         STN_N8,         STN_N9,         STN_NA,         STN_NB,         STN_NC,
-  //   STN_FN,         STN_S1,         STN_TL,         STN_PL,         STN_HL,         STN_ST1,        KC_TRANSPARENT,                                 KC_TRANSPARENT, STN_ST3,        STN_FR,         STN_PR,         STN_LR,         STN_TR,         STN_DR,
-  //   KC_TRANSPARENT, STN_S2,         STN_KL,         STN_WL,         STN_RL,         STN_ST2,                                                                        STN_ST4,        STN_RR,         STN_BR,         STN_GR,         STN_SR,         STN_ZR,
-  //   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-  //   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-  //                                                                                                   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-  //                                                                                                                   KC_TRANSPARENT, KC_TRANSPARENT,
-  //                                                                                   STN_A,          STN_O,          KC_TRANSPARENT, KC_TRANSPARENT, STN_E,   STN_U
-  // ),
+/* Keymap 3: TxBolt (Serial)
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |      |   #  |   #  |   #  |   #  |   #  |           |   #  |   #  |   #  |   #  |   #  |   #  |        |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |      |   S  |   T  |   P  |   H  |   *  |           |   *  |   F  |   P  |   L  |   T  |   D  |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |   S  |   K  |   W  |   R  |------|           |------|   R  |   B  |   G  |   S  |   Z  |        |
+ * |--------+------+------+------+------+------|LYRSWT|           |BAKSPC|------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |LYRSWT|      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |   A  |   O  |------|       |------|   E  |   U  |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+// TxBolt over Serial
+  [3] = LAYOUT_ergodox(
+       KC_BSPC, KC_NO,   STN_N1,  STN_N2,  STN_N3,  STN_N4,  STN_N5, 
+       KC_NO,   KC_NO,   STN_S1,  STN_TL,  STN_PL,  STN_HL,  STN_ST1,
+       KC_NO,   KC_NO,   STN_S2,  STN_KL,  STN_WL,  STN_RL,
+       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRANSPARENT,
+       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                                           KC_NO,   KC_NO,
+                                                    KC_NO,
+                                  STN_A,   STN_O,   KC_NO,
+
+       STN_N6,   STN_N7,  STN_N8,  STN_N9,  STN_NA,  STN_NB,  KC_NO,
+       STN_ST3,  STN_FR,  STN_PR,  STN_LR,  STN_TR,  STN_DR,  KC_NO,
+                 STN_RR,  STN_BR,  STN_GR,  STN_SR,  STN_ZR,  KC_NO,
+       KC_BSPC,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                          KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+       KC_TRANSPARENT,KC_NO,
+       KC_NO,
+       KC_NO,   STN_E,   STN_U
+  ),
 };
 
 /*
@@ -122,6 +141,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 */
 
+// Runs just one time when the keyboard initializes.
+void matrix_init_user(void) {
+    steno_set_mode(STENO_MODE_BOLT); // or STENO_MODE_GEMINI
+};
+
+// Runs constantly in the background, in a loop.
 bool led_update_user(led_t led_state) {
     if (led_state.caps_lock) {
         ergodox_right_led_3_on();
@@ -152,4 +177,3 @@ uint32_t layer_state_set_user(uint32_t state) {
   }
   return state;
 };
-

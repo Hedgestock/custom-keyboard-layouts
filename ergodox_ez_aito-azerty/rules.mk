@@ -3,12 +3,12 @@
 LINK_TIME_OPTIMIZATION_ENABLE = yes
 COMMAND_ENABLE = no
 MOUSEKEY_ENABLE = no
-WEBUSB_ENABLE = yes
-ORYX_ENABLE = yes
+WEBUSB_ENABLE = no
+ORYX_ENABLE = no # Sadly this does not work with steno
 RGBLIGHT_ENABLE = no
 MIDI_ENABLE = no
 NKRO_ENABLE = no
 AUDIO_ENABLE = no # To test
-STENO_ENABLE = no
+STENO_ENABLE = yes
 EXTRAKEY_ENABLE = yes # Find a way to have that AND steno
 CONSOLE_ENABLE = no
