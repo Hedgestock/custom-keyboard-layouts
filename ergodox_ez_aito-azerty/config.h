@@ -7,4 +7,4 @@
 
 #undef IGNORE_MOD_TAP_INTERRUPT
 
-#define FIRMWARE_VERSION u8"9wGj7/z9bpM"
+#define FIRMWARE_VERSION u8"9wGj7/z9bpM" // completely false now

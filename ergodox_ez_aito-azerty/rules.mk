@@ -10,5 +10,5 @@ MIDI_ENABLE = no
 NKRO_ENABLE = no
 AUDIO_ENABLE = no # To test
 STENO_ENABLE = yes
-EXTRAKEY_ENABLE = yes # Find a way to have that AND steno
+EXTRAKEY_ENABLE = yes
 CONSOLE_ENABLE = no
