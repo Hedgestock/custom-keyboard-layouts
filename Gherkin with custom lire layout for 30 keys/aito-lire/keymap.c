@@ -49,46 +49,116 @@ enum layers {
 };
 
 enum custom_keycodes {
-  CK_TRIPLEZERO = SAFE_RANGE,
+  SFT_FIRST = SAFE_RANGE,
+  MY_DOT,
+  MY_COMM,
+  MY_SPC,
+  MY_LCBR,
+  MY_RCBR,
+  MY_LPRN,
+  MY_RPRN,
+  // MY_EURO,
+  SFT_LAST,
 };
 
+enum modifiers {
+  NONE = 0,
+  SHFT,
+  ALTE,
+  CTRL,
+  ALGR,
+};
+
+struct custom_key
+{
+  char modifier;
+  uint16_t keycode;
+  uint16_t shifted_keycode;
+  bool is_shifted_keycode_shifted;// use modifier instead
+};
+
+
+struct custom_key shifted_values[SFT_LAST - SFT_FIRST - 1] = {
+  {NONE, US_DOT,  US_SLSH,  true},  // MY_DOT
+  {NONE, US_COMM, US_1,     true},  // MY_COMM
+  {NONE, KC_SPC,  KC_BSPC,  false}, // MY_SPC
+  {SHFT, US_LBRC, US_COMM,  true},  // MY_LCBR
+  {SHFT, US_LBRC, US_DOT,   true},  // MY_RCBR
+  {SHFT, US_9,    US_LBRC,  false}, // MY_LPRN
+  {SHFT, US_0,    US_RBRC,  false}, // MY_RPRN
+  // {NONE, US_EURO, US_1,     true},  // MY_EURO
+};// TODO, add custom modifiers to custom_shift function
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT_ortho_3x10(
-    US_C,         US_P,         US_V,         US_O,         US_W,    US_J,   US_U,         US_D,         US_X,         KC_PSLS,
-    LSFT_T(US_L), US_I,         LT(NUM,US_R), US_E,         US_COMM, US_DOT, US_S,         US_T,         US_A,         RSFT_T(US_N),
-    LCTL_T(US_F), LALT_T(US_Y), RALT(US_H),   LWIN_T(US_Q), KC_ENT,  KC_SPC, RWIN_T(US_B), LALT_T(US_G), RALT_T(US_K), LCTL_T(US_Z)
+    US_C,         US_P,         US_V,         US_O,         US_W,    US_J,   US_U,         US_D,         US_X,         US_M,
+    LSFT_T(US_L), US_I,         LT(NUM,US_R), US_E,         MY_COMM, MY_DOT, US_S,         LT(NUM,US_T), US_A,         RSFT_T(US_N),
+    LCTL_T(US_F), LALT_T(US_Y), RALT(US_H),   LWIN_T(US_Q), KC_ENT,  MY_SPC, RWIN_T(US_B), LALT_T(US_G), RALT_T(US_K), LCTL_T(US_Z)
+  ),
+
+  [ACC] = LAYOUT_ortho_3x10(
+    US_CIRC,         US_HASH,         US_AT,         US_AMPR,         US_PIPE,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         KC_PSLS,
+    LSFT_T(US_LCBR), US_RCBR,         US_LPRN,       US_RPRN,         US_EURO,  KC_PMNS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
+    LCTL_T(US_LABK), LALT_T(US_RABK), RALT(US_LBRC), LWIN_T(US_RBRC), KC_PENT,  KC_PEQL,   RWIN_T(KC_P1), LALT_T(KC_P2), RALT_T(KC_P3), LCTL_T(KC_PAST)
   ),
 
   [NUM] = LAYOUT_ortho_3x10(
-    US_C,         US_P,         US_V,       US_O,         US_W,     KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         US_M,
-    LSFT_T(US_L), US_I,         US_R,       US_E,         US_COMM,  KC_PMNS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
-    LCTL_T(US_F), LALT_T(US_Y), RALT(US_H), LWIN_T(US_Q), KC_PENT,  KC_PEQL,   RWIN_T(KC_P1), LALT_T(KC_P2), RALT_T(KC_P3), LCTL_T(KC_PAST)
+    US_CIRC,         US_HASH,         US_AT,         US_AMPR,         US_PIPE,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         KC_PSLS,
+    LSFT_T(MY_LCBR), MY_RCBR,         MY_LPRN,       MY_RPRN,         US_EURO,  KC_PMNS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
+    LCTL_T(US_LABK), LALT_T(US_RABK), RALT(US_LBRC), LWIN_T(US_RBRC), KC_PENT,  KC_PEQL,   RWIN_T(KC_P1), LALT_T(KC_P2), RALT_T(KC_P3), LCTL_T(KC_PAST)
   )
 };
 
 
-// void matrix_init_user(void) {
-//   // eeconfig_init(); // reset keyboard to a standard default state; useful when new releases messup with eeprom values
-//   // set num lock on at start (for numonly layer to work)
-//   if (!host_keyboard_led_state().num_lock) {
-//       tap_code(KC_NUMLOCK);
-//   }
-// }
+bool custom_shift(uint16_t keycode, keyrecord_t *record){
+  const struct custom_key key = shifted_values[keycode - SFT_FIRST - 1];
+  if (record->event.pressed){
+    uint16_t shift;
+    bool is_shifted = false;
+    if (get_mods() & MOD_BIT(KC_LSHIFT)) {
+      shift = KC_LSHIFT;
+      is_shifted = true;
+    } else if (get_mods() & MOD_BIT(KC_RSHIFT)) {
+      shift = KC_RSHIFT;
+      is_shifted = true;
+    }
+    if (is_shifted)
+    {
+      if(key.is_shifted_keycode_shifted){
+        register_code(key.shifted_keycode);
+      } else {
+        unregister_code(shift);
+        register_code(key.shifted_keycode);
+        register_code(shift);
+      }
+    } else {
+      register_code(key.keycode);
+    }
+  } else {
+    unregister_code(key.shifted_keycode);
+    unregister_code(key.keycode);
+  }
+  return false;
+}
 
-// void matrix_scan_user(void) {
-// }
 
-
-// Handling custom shift like that is problematic because of fantom unregistering
-// and no real custom shift if the key is not shifted
+// Handling custom shift like that is problematic because of phantom unregistering
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if(keycode >= SFT_FIRST && keycode < SFT_LAST) {
+    return custom_shift(keycode, record);
+  }
+  return true;
+};
+/*
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case US_COMM:
       if (record->event.pressed){
         if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
+          unregister_code(KC_LSHIFT);
           register_code(US_SLSH);
+          register_code(KC_LSHIFT);
           return false;
         } else {
         }
@@ -121,15 +191,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 };
-
-// void keyboard_pre_init_user(void) {
-//   // Set our LED pins as output
-//   setPinOutput(D5);
-//   setPinOutput(B0);
-// }
-
-// bool led_update_user(led_t led_state) {
-//     writePin(D5, !led_state.num_lock);
-//     writePin(B0, !led_state.caps_lock);
-//     return false; // prevent keyboard from processing state
-// }
+*/
