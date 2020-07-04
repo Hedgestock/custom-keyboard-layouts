@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "version.h"
 #include "action_layer.h"
 #include "keymap_french.h"
 #include "keymap_bepo.h"
