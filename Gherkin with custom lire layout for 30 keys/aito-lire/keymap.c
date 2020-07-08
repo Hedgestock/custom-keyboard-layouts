@@ -126,11 +126,11 @@ enum combos {
   PLMN,
 };
 
-// look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual action combos
+// look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual function combos
 const uint16_t PROGMEM esc_top_combo[] = {CA_C, CA_P, COMBO_END};
 const uint16_t PROGMEM del_top_combo[] = {CA_M, CA_X, COMBO_END};
-const uint16_t PROGMEM esc_bot_combo[] = {CA_Q, KC_ENT, COMBO_END};
-const uint16_t PROGMEM del_bot_combo[] = {CA_B, CS_SPC, COMBO_END};
+const uint16_t PROGMEM esc_bot_combo[] = {CA_Q, KC_ENT, COMBO_END};//fixme
+const uint16_t PROGMEM del_bot_combo[] = {CA_B, CS_SPC, COMBO_END};//fixme
 const uint16_t PROGMEM tab_bot_combo[] = {KC_ENT, CS_SPC, COMBO_END};
 const uint16_t PROGMEM scln_combo[] = {CS_COMM, CS_DOT, COMBO_END};
 const uint16_t PROGMEM oe_combo[] = {CD_OCRC, CA_EACU, COMBO_END};
@@ -171,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [NUM] = LAYOUT_ortho_3x10(
-    CA_LDQU,         CA_LDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CS_PSLS,
+    CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CS_PSLS,
     LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_EURO,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         CS_P0,
     KC_ALGR,         CS_NOT,        CS_LABK,         CS_RABK,          CS_AT,    CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
   ),
@@ -234,6 +234,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void process_combo_event(uint8_t combo_index, bool pressed) {
   // I could also put that into a function to ease of development
   switch(combo_index) {
+    case DEL_BOT:
+      if (pressed) {
+        tap_code16(KC_BSPC);
+        register_code16(KC_DEL);
+      } else
+      {
+        unregister_code16(KC_DEL);
+      }
+      break;
+    case TAB_BOT:
+      if (pressed) {
+        tap_code16(KC_BSPC);
+        register_code16(KC_TAB);
+      } else
+      {
+        unregister_code16(KC_TAB);
+      }
+      break;
     case SCLN:
       if (pressed) {
         tap_code16(KC_BSPC);
@@ -259,22 +277,6 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
       } else
       {
         unregister_code16(CA_AE);
-      }
-      break;
-    case DEL_BOT:
-      if (pressed) {
-        register_code16(KC_DEL);
-      } else
-      {
-        unregister_code16(KC_DEL);
-      }
-      break;
-    case TAB_BOT:
-      if (pressed) {
-        register_code16(KC_TAB);
-      } else
-      {
-        unregister_code16(KC_TAB);
       }
       break;
   }
