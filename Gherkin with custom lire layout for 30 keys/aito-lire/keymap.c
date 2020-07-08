@@ -23,172 +23,259 @@
 
 #include QMK_KEYBOARD_H
 
-#include "keymap_us_international.h"
+#include "keymap_canadian_multilingual.h"
 
-enum combos {
-  ESC,
-  SCLN,
-  DEL,
+enum custom_keycodes {
+  CS_FIRST = SAFE_RANGE,
+  CS_DOT,
+  CS_COMM,
+  CS_SPC,
+  CS_LCBR,
+  CS_RCBR,
+  CS_LPRN,
+  CS_RPRN,
+  CS_EURO,
+  CS_QUOT,
+  CS_ESZT,
+  CS_CIRC, 
+  CS_DIAE,
+  CS_GRV,
+  CS_RNGA, 
+  CS_DTIL,
+  CS_COPY,
+  CS_LABK,
+  CS_RABK,
+  CS_AT,
+  CS_AMPR,
+  CS_COLN,
+  CS_NOT,
+  CS_PAST,
+  CS_P0,
+  CS_PSLS,
+  CS_LAST,
+  CD_FIRST,
+  CD_ECRC,
+  CD_ETRM,
+  CD_ICRC,
+  CD_ITRM,
+  CD_OCRC,
+  CD_UCRC,
+  CD_LAST,
 };
 
-const uint16_t PROGMEM esc_combo[] = {US_C, US_P, COMBO_END};
-const uint16_t PROGMEM scln_combo[] = {US_COMM, US_DOT, COMBO_END};
-const uint16_t PROGMEM del_combo[] = {US_M, US_X, COMBO_END};
+struct custom_shifted_key
+{
+  uint16_t keycode;
+  uint16_t shifted_keycode;
+};
+
+// make those look like key_combos
+struct custom_shifted_key shifted_values[CS_LAST - CS_FIRST - 1] = {
+  { CA_DOT,  CA_EXLM },  // CS_DOT
+  { CA_COMM, CA_QUES },  // CS_COMM
+  { KC_SPC,  KC_BSPC },  // CS_SPC
+  { CA_LCBR, CA_LABK },  // CS_LCBR
+  { CA_RCBR, CA_TILD },  // CS_RCBR
+  { CA_LPRN, CA_LBRC },  // CS_LPRN
+  { CA_RPRN, CA_RBRC },  // CS_RPRN
+  { CA_EURO, CA_DLR  },  // CS_EURO
+  { CA_QUOT, CA_DQUO },  // CS_QUOT
+  { CA_SS,   CA_SECT },  // CS_ESZT
+  { CA_CIRC, CA_CARN },  // CS_CIRC
+  { CA_DIAE, CA_DACU },  // CS_DIAE
+  { CA_GRV,  CA_ACUT },  // CS_GRV
+  { CA_RNGA, CA_BREV },  // CS_RNGA
+  { CA_DTIL, CA_MACR },  // CS_DTIL
+  { CA_COPY, CA_REGD },  // CS_COPY
+  { CA_LABK, CA_LDAQ },  // CS_LABK
+  { CA_RABK, CA_RDAQ },  // CS_RABK
+  { CA_AT,   CA_HASH },  // CS_AT
+  { CA_AMPR, CA_PIPE },  // CS_AMPR
+  { CA_COLN, CA_EQL  },  // CS_COLN
+  { CA_NOT,  CA_BRKP },  // CS_NOT
+  { KC_PAST, CA_PERC },  // CS_PAST
+  { KC_P0,   CA_DEG  },  // CS_P0
+  { KC_PSLS, CA_BSLS },  // CS_PSLS
+};
+
+struct revived_key
+{
+  uint16_t dead_keycode;
+  uint16_t keycode;
+};
+
+// make those look like key_combos
+struct revived_key revived_values[CS_LAST - CS_FIRST - 1] = {
+  { CA_CIRC, CA_E },  // CD_ECRC
+  { CA_DIAE, CA_E },  // CD_ETRM
+  { CA_CIRC, CA_I },  // CD_ICRC
+  { CA_DIAE, CA_I },  // CD_ITRM
+  { CA_CIRC, CA_O },  // CD_OCRC
+  { CA_CIRC, CA_U },  // CD_UCRC
+};
+
+enum combos {
+  ESC_TOP,
+  DEL_TOP,
+  ESC_BOT,
+  DEL_BOT,
+  TAB_BOT,
+  SCLN,
+  OE,
+  AE,
+  PLMN,
+};
+
+// look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual action combos
+const uint16_t PROGMEM esc_top_combo[] = {CA_C, CA_P, COMBO_END};
+const uint16_t PROGMEM del_top_combo[] = {CA_M, CA_X, COMBO_END};
+const uint16_t PROGMEM esc_bot_combo[] = {CA_Q, KC_ENT, COMBO_END};
+const uint16_t PROGMEM del_bot_combo[] = {CA_B, CS_SPC, COMBO_END};
+const uint16_t PROGMEM tab_bot_combo[] = {KC_ENT, CS_SPC, COMBO_END};
+const uint16_t PROGMEM scln_combo[] = {CS_COMM, CS_DOT, COMBO_END};
+const uint16_t PROGMEM oe_combo[] = {CD_OCRC, CA_EACU, COMBO_END};
+const uint16_t PROGMEM ae_combo[] = {CA_AGRV, CA_EACU, COMBO_END};
+const uint16_t PROGMEM plmn_combo[] = {KC_PPLS, KC_MINS, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-  [ESC] = COMBO(esc_combo, KC_ESC),
-  [SCLN] = COMBO(scln_combo, US_SCLN),
-  [DEL] = COMBO(del_combo, KC_DEL)
+  [ESC_TOP] = COMBO(esc_top_combo, KC_ESC),
+  [DEL_TOP] = COMBO(del_top_combo, KC_DEL),
+  [ESC_BOT] = COMBO(esc_bot_combo, KC_ESC),
+  [DEL_BOT] = COMBO_ACTION(del_bot_combo),
+  [TAB_BOT] = COMBO_ACTION(tab_bot_combo),
+  [SCLN] = COMBO_ACTION(scln_combo),
+  [OE] = COMBO_ACTION(oe_combo),
+  [AE] = COMBO_ACTION(ae_combo),
+  [PLMN] = COMBO(plmn_combo, CA_PLMN),
 };
 
 enum layers {
   BASE, // base layer
-  ACC, // accentued letters
-  NUM, // numbers and other characters
-  FUN, // function keys and navigation
+  ACC,  // accentued letters
+  NUM,  // numbers and other characters
+  FUN,  // function keys and navigation
 };
-
-enum custom_keycodes {
-  SFT_FIRST = SAFE_RANGE,
-  MY_DOT,
-  MY_COMM,
-  MY_SPC,
-  MY_LCBR,
-  MY_RCBR,
-  MY_LPRN,
-  MY_RPRN,
-  // MY_EURO,
-  SFT_LAST,
-};
-
-enum modifiers {
-  NONE = 0,
-  SHFT,
-  ALTE,
-  CTRL,
-  ALGR,
-};
-
-struct custom_key
-{
-  char modifier;
-  uint16_t keycode;
-  uint16_t shifted_keycode;
-  bool is_shifted_keycode_shifted;// use modifier instead
-};
-
-
-struct custom_key shifted_values[SFT_LAST - SFT_FIRST - 1] = {
-  {NONE, US_DOT,  US_SLSH,  true},  // MY_DOT
-  {NONE, US_COMM, US_1,     true},  // MY_COMM
-  {NONE, KC_SPC,  KC_BSPC,  false}, // MY_SPC
-  {SHFT, US_LBRC, US_COMM,  true},  // MY_LCBR
-  {SHFT, US_LBRC, US_DOT,   true},  // MY_RCBR
-  {SHFT, US_9,    US_LBRC,  false}, // MY_LPRN
-  {SHFT, US_0,    US_RBRC,  false}, // MY_RPRN
-  // {NONE, US_EURO, US_1,     true},  // MY_EURO
-};// TODO, add custom modifiers to custom_shift function
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT_ortho_3x10(
-    US_C,         US_P,         US_V,         US_O,         US_W,    US_J,   US_U,         US_D,         US_X,         US_M,
-    LSFT_T(US_L), US_I,         LT(NUM,US_R), US_E,         MY_COMM, MY_DOT, US_S,         LT(NUM,US_T), US_A,         RSFT_T(US_N),
-    LCTL_T(US_F), LALT_T(US_Y), RALT(US_H),   LWIN_T(US_Q), KC_ENT,  MY_SPC, RWIN_T(US_B), LALT_T(US_G), RALT_T(US_K), LCTL_T(US_Z)
+    CA_C,            CA_P,            CA_V,            CA_O,             CA_W,    CA_J,   CA_U,         CA_D,         CA_X,         CA_M,
+    LSFT_T(CA_L),    LT(ACC,CA_I),    LT(NUM,CA_R),    LT(FUN,CA_E),     CS_DOT,  CS_COMM, LT(FUN,CA_S), LT(NUM,CA_T), LT(ACC,CA_A), RSFT_T(CA_N),
+    LCTL_T(CA_F),    LALT_T(CA_Y),    ALGR_T(CA_H),    LWIN_T(CA_Q),     KC_ENT,  CS_SPC, RWIN_T(CA_B), LALT_T(CA_G), ALGR_T(CA_K), LCTL_T(CA_Z)
   ),
 
   [ACC] = LAYOUT_ortho_3x10(
-    US_CIRC,         US_HASH,         US_AT,         US_AMPR,         US_PIPE,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         KC_PSLS,
-    LSFT_T(US_LCBR), US_RCBR,         US_LPRN,       US_RPRN,         US_EURO,  KC_PMNS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
-    LCTL_T(US_LABK), LALT_T(US_RABK), RALT(US_LBRC), LWIN_T(US_RBRC), KC_PENT,  KC_PEQL,   RWIN_T(KC_P1), LALT_T(KC_P2), RALT_T(KC_P3), LCTL_T(KC_PAST)
+    CA_CCED,         CD_ITRM,         CD_ETRM,         CD_OCRC,          CA_OSTR, CA_ENOT, CD_UCRC,       CA_UGRV,       KC_NO,         KC_NO,
+    LSFT_T(KC_CAPS), CD_ICRC,         CD_ECRC,         CA_EACU,          CA_EGRV, CA_CEDL, CS_ESZT,       KC_NO,         CA_AGRV,       RSFT_T(KC_CAPS),
+    CA_TM,           CS_COPY,         CS_CIRC,         CS_DIAE,          KC_ENT,  CS_SPC,  CS_GRV,        CS_RNGA,       CS_DTIL,       CA_DOTA
   ),
 
   [NUM] = LAYOUT_ortho_3x10(
-    US_CIRC,         US_HASH,         US_AT,         US_AMPR,         US_PIPE,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         KC_PSLS,
-    LSFT_T(MY_LCBR), MY_RCBR,         MY_LPRN,       MY_RPRN,         US_EURO,  KC_PMNS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
-    LCTL_T(US_LABK), LALT_T(US_RABK), RALT(US_LBRC), LWIN_T(US_RBRC), KC_PENT,  KC_PEQL,   RWIN_T(KC_P1), LALT_T(KC_P2), RALT_T(KC_P3), LCTL_T(KC_PAST)
+    CA_LDQU,         CA_LDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CS_PSLS,
+    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_EURO,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         CS_P0,
+    KC_ALGR,         CS_NOT,        CS_LABK,         CS_RABK,          CS_AT,    CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
+  ),
+
+  [FUN] = LAYOUT_ortho_3x10(
+    KC_VOLU,         KC_PGDN,         KC_INS,          KC_PGUP,          KC_LALT,  KC_ALGR,  KC_F1,         KC_F2,          KC_F3,          KC_F4,
+    KC_VOLD,         KC_HOME,         KC_UP,           KC_END,           KC_LSFT,  KC_LCTL,  KC_F5,         KC_F6,          KC_F7,          KC_F8,
+    KC_APP,          KC_LEFT,         KC_DOWN,         KC_RIGHT,         KC_ENT,   CS_SPC,   KC_F9,         KC_F10,         KC_F11,         KC_F12
   )
 };
 
 
+// TODO make that repeat on hold
 bool custom_shift(uint16_t keycode, keyrecord_t *record){
-  const struct custom_key key = shifted_values[keycode - SFT_FIRST - 1];
-  if (record->event.pressed){
-    uint16_t shift;
-    bool is_shifted = false;
-    if (get_mods() & MOD_BIT(KC_LSHIFT)) {
-      shift = KC_LSHIFT;
-      is_shifted = true;
-    } else if (get_mods() & MOD_BIT(KC_RSHIFT)) {
-      shift = KC_RSHIFT;
-      is_shifted = true;
-    }
-    if (is_shifted)
+  const struct custom_shifted_key key = shifted_values[keycode - CS_FIRST - 1];
+  if (record->event.pressed) {
+    uint8_t temp_mods = get_mods();
+    if (temp_mods == MOD_BIT(KC_LSHIFT) || temp_mods == MOD_BIT(KC_RSHIFT)) {
+      clear_mods();
+      register_code16(key.shifted_keycode);
+      set_mods(temp_mods);
+    } else
     {
-      if(key.is_shifted_keycode_shifted){
-        register_code(key.shifted_keycode);
-      } else {
-        unregister_code(shift);
-        register_code(key.shifted_keycode);
-        register_code(shift);
-      }
-    } else {
-      register_code(key.keycode);
+      register_code16(key.keycode);
     }
   } else {
-    unregister_code(key.shifted_keycode);
-    unregister_code(key.keycode);
+	  // Handling custom shift like that is problematic because of phantom unregistering
+    // But needed for combos to work
+	  unregister_code16(key.shifted_keycode);
+    unregister_code16(key.keycode);
   }
-  return false;
+  return true;
 }
 
+// TODO make that repeat on hold
+bool dead_key_macro(uint16_t keycode, keyrecord_t *record){
+  const struct revived_key key = revived_values[keycode - CD_FIRST - 1];
+  if (record->event.pressed) {
+    uint8_t temp_mods = get_mods();
+    clear_mods();
+    tap_code16(key.dead_keycode);
+    set_mods(temp_mods);
+    tap_code16(key.keycode);
+  }
+  return true;
+}
 
-// Handling custom shift like that is problematic because of phantom unregistering
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if(keycode >= SFT_FIRST && keycode < SFT_LAST) {
+  if(keycode >= CS_FIRST && keycode < CS_LAST) {
     return custom_shift(keycode, record);
   }
-  return true;
-};
-/*
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case US_COMM:
-      if (record->event.pressed){
-        if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
-          unregister_code(KC_LSHIFT);
-          register_code(US_SLSH);
-          register_code(KC_LSHIFT);
-          return false;
-        } else {
-        }
-      } else {
-        unregister_code(US_SLSH);
-      }
-      break;
-    case US_DOT:
-      if (record->event.pressed){
-        if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
-          register_code(US_1);
-          return false;
-        } else {
-        }
-      } else {
-        unregister_code(US_1);
-      }
-      break;
-    case KC_SPC:
-      if (record->event.pressed){
-        if (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT)){
-          register_code(KC_BSPC);
-          return false;
-        } else {
-        }
-      } else {
-        unregister_code(KC_BSPC);
-      }
-      break;
+  if(keycode >= CD_FIRST && keycode < CD_LAST) {
+    return dead_key_macro(keycode, record);
   }
   return true;
 };
-*/
+
+// useful for custom shifted keys since its is needed to erase their previous input
+// setting the return value in custom_shift to false prevents the combo to be processed
+void process_combo_event(uint8_t combo_index, bool pressed) {
+  // I could also put that into a function to ease of development
+  switch(combo_index) {
+    case SCLN:
+      if (pressed) {
+        tap_code16(KC_BSPC);
+        tap_code16(KC_BSPC);
+        register_code16(CA_SCLN);
+      } else
+      {
+        unregister_code16(CA_SCLN);
+      }
+      break;
+    case OE:
+      if (pressed) {
+        tap_code16(KC_BSPC);
+        register_code16(CA_OE);
+      } else
+      {
+        unregister_code16(CA_OE);
+      }
+      break;
+    case AE:
+      if (pressed) {
+        register_code16(CA_AE);
+      } else
+      {
+        unregister_code16(CA_AE);
+      }
+      break;
+    case DEL_BOT:
+      if (pressed) {
+        register_code16(KC_DEL);
+      } else
+      {
+        unregister_code16(KC_DEL);
+      }
+      break;
+    case TAB_BOT:
+      if (pressed) {
+        register_code16(KC_TAB);
+      } else
+      {
+        unregister_code16(KC_TAB);
+      }
+      break;
+  }
+}
