@@ -50,8 +50,6 @@ enum custom_keycodes {
   CS_COLN,
   CS_NOT,
   CS_PAST,
-  CS_P0,
-  CS_PSLS,
   CS_LAST,
   CD_FIRST,
   CD_ECRC,
@@ -74,8 +72,8 @@ struct custom_shifted_key shifted_values[CS_LAST - CS_FIRST - 1] = {
   { CA_DOT,  CA_EXLM },  // CS_DOT
   { CA_COMM, CA_QUES },  // CS_COMM
   { KC_SPC,  KC_BSPC },  // CS_SPC
-  { CA_LCBR, CA_LABK },  // CS_LCBR
-  { CA_RCBR, CA_TILD },  // CS_RCBR
+  { CA_LCBR, CA_TILD },  // CS_LCBR
+  { CA_RCBR, CA_DEG  },  // CS_RCBR
   { CA_LPRN, CA_LBRC },  // CS_LPRN
   { CA_RPRN, CA_RBRC },  // CS_RPRN
   { CA_EURO, CA_DLR  },  // CS_EURO
@@ -94,8 +92,6 @@ struct custom_shifted_key shifted_values[CS_LAST - CS_FIRST - 1] = {
   { CA_COLN, CA_EQL  },  // CS_COLN
   { CA_NOT,  CA_BRKP },  // CS_NOT
   { KC_PAST, CA_PERC },  // CS_PAST
-  { KC_P0,   CA_DEG  },  // CS_P0
-  { KC_PSLS, CA_BSLS },  // CS_PSLS
 };
 
 struct revived_key
@@ -171,8 +167,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [NUM] = LAYOUT_ortho_3x10(
-    CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CS_PSLS,
-    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_EURO,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         CS_P0,
+    CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CA_SLSH,
+    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_EURO,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
     KC_ALGR,         CS_NOT,        CS_LABK,         CS_RABK,          CS_AT,    CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
   ),
 
