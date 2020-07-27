@@ -125,8 +125,8 @@ enum combos {
 // look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual function combos
 const uint16_t PROGMEM esc_top_combo[] = {CA_C, CA_P, COMBO_END};
 const uint16_t PROGMEM del_top_combo[] = {CA_M, CA_X, COMBO_END};
-const uint16_t PROGMEM esc_bot_combo[] = {CA_Q, KC_ENT, COMBO_END};//fixme
-const uint16_t PROGMEM del_bot_combo[] = {CA_B, CS_SPC, COMBO_END};//fixme
+const uint16_t PROGMEM esc_bot_combo[] = {CA_H, KC_ENT, COMBO_END};//fixme
+const uint16_t PROGMEM del_bot_combo[] = {CA_G, CS_SPC, COMBO_END};//fixme
 const uint16_t PROGMEM tab_bot_combo[] = {KC_ENT, CS_SPC, COMBO_END};
 const uint16_t PROGMEM scln_combo[] = {CS_COMM, CS_DOT, COMBO_END};
 const uint16_t PROGMEM oe_combo[] = {CD_OCRC, CA_EACU, COMBO_END};
@@ -155,14 +155,14 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [BASE] = LAYOUT_ortho_3x10(
-    CA_C,            CA_P,            CA_V,            CA_O,             CA_W,    CA_J,   CA_U,         CA_D,         CA_X,         CA_M,
-    LSFT_T(CA_L),    LT(ACC,CA_I),    LT(NUM,CA_R),    LT(FUN,CA_E),     CS_DOT,  CS_COMM, LT(FUN,CA_S), LT(NUM,CA_T), LT(ACC,CA_A), RSFT_T(CA_N),
-    LCTL_T(CA_F),    LALT_T(CA_Y),    ALGR_T(CA_H),    LWIN_T(CA_Q),     KC_ENT,  CS_SPC, RWIN_T(CA_B), LALT_T(CA_G), ALGR_T(CA_K), LCTL_T(CA_Z)
+    CA_C,            CA_P,            CA_O,            CA_V,             CA_W,    CA_J,    CA_D,         CA_U,         CA_X,         CA_M,
+    LSFT_T(CA_L),    LT(ACC,CA_I),    LT(NUM,CA_E),    LT(FUN,CA_R),     CS_DOT,  CS_COMM, LT(FUN,CA_T), LT(NUM,CA_S), LT(ACC,CA_A), RSFT_T(CA_N),
+    LCTL_T(CA_F),    LALT_T(CA_Y),    ALGR_T(CA_Q),    LWIN_T(CA_H),     KC_ENT,  CS_SPC,  RWIN_T(CA_G), LALT_T(CA_B), ALGR_T(CA_K), LCTL_T(CA_Z)
   ),
 
   [ACC] = LAYOUT_ortho_3x10(
-    CA_CCED,         CD_ITRM,         CD_ETRM,         CD_OCRC,          CA_OSTR, CA_ENOT, CD_UCRC,       CA_UGRV,       KC_NO,         KC_NO,
-    LSFT_T(KC_CAPS), CD_ICRC,         CD_ECRC,         CA_EACU,          CA_EGRV, CA_CEDL, CS_ESZT,       KC_NO,         CA_AGRV,       RSFT_T(KC_CAPS),
+    CA_CCED,         CD_ITRM,         CD_OCRC,         CD_ETRM,          CA_OSTR, CA_ENOT, CA_UGRV,       CD_UCRC,       KC_NO,         KC_NO,
+    LSFT_T(KC_CAPS), CD_ICRC,         CA_EACU,         CD_ECRC,          CA_EGRV, CA_CEDL, KC_NO,         CS_ESZT,       CA_AGRV,       RSFT_T(KC_CAPS),
     CA_TM,           CS_COPY,         CS_CIRC,         CS_DIAE,          KC_ENT,  CS_SPC,  CS_GRV,        CS_RNGA,       CS_DTIL,       CA_DOTA
   ),
 
