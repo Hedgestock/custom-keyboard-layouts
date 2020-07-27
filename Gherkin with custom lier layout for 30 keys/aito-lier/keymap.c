@@ -161,8 +161,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [ACC] = LAYOUT_ortho_3x10(
-    CA_CCED,         CD_ITRM,         CD_OCRC,         CD_ETRM,          CA_OSTR, CA_ENOT, CA_UGRV,       CD_UCRC,       KC_NO,         KC_NO,
-    LSFT_T(KC_CAPS), CD_ICRC,         CA_EACU,         CD_ECRC,          CA_EGRV, CA_CEDL, KC_NO,         CS_ESZT,       CA_AGRV,       RSFT_T(KC_CAPS),
+    CA_CCED,         CD_ITRM,         CD_OCRC,         CA_OSTR,          CD_ETRM, CA_ENOT, CA_UGRV,       CD_UCRC,       KC_NO,         KC_NO,
+    LSFT_T(KC_CAPS), CD_ICRC,         CA_EACU,         CA_EGRV,          CD_ECRC, CA_CEDL, KC_NO,         CS_ESZT,       CA_AGRV,       RSFT_T(KC_CAPS),
     CA_TM,           CS_COPY,         CS_CIRC,         CS_DIAE,          KC_ENT,  CS_SPC,  CS_GRV,        CS_RNGA,       CS_DTIL,       CA_DOTA
   ),
 
