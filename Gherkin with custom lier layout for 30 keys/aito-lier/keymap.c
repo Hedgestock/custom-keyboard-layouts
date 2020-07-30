@@ -35,6 +35,7 @@ enum custom_keycodes {
   CS_LPRN,
   CS_RPRN,
   CS_EURO,
+  CS_DLR,
   CS_QUOT,
   CS_ESZT,
   CS_CIRC, 
@@ -49,7 +50,9 @@ enum custom_keycodes {
   CS_AMPR,
   CS_COLN,
   CS_NOT,
+  CS_TILD,
   CS_PAST,
+  CS_PPLS,
   CS_LAST,
   CD_FIRST,
   CD_ECRC,
@@ -58,6 +61,7 @@ enum custom_keycodes {
   CD_ITRM,
   CD_OCRC,
   CD_UCRC,
+  CD_ACRC,
   CD_LAST,
 };
 
@@ -72,11 +76,12 @@ struct custom_shifted_key shifted_values[CS_LAST - CS_FIRST - 1] = {
   { CA_DOT,  CA_EXLM },  // CS_DOT
   { CA_COMM, CA_QUES },  // CS_COMM
   { KC_SPC,  KC_BSPC },  // CS_SPC
-  { CA_LCBR, CA_TILD },  // CS_LCBR
-  { CA_RCBR, CA_DEG  },  // CS_RCBR
+  { CA_LCBR, CA_HASH },  // CS_LCBR
+  { CA_RCBR, CA_AT   },  // CS_RCBR
   { CA_LPRN, CA_LBRC },  // CS_LPRN
   { CA_RPRN, CA_RBRC },  // CS_RPRN
-  { CA_EURO, CA_DLR  },  // CS_EURO
+  { CA_EURO, CA_PND  },  // CS_EURO
+  { CA_DLR,  CA_YEN  },  // CS_DLR
   { CA_QUOT, CA_DQUO },  // CS_QUOT
   { CA_SS,   CA_SECT },  // CS_ESZT
   { CA_CIRC, CA_CARN },  // CS_CIRC
@@ -91,7 +96,9 @@ struct custom_shifted_key shifted_values[CS_LAST - CS_FIRST - 1] = {
   { CA_AMPR, CA_PIPE },  // CS_AMPR
   { CA_COLN, CA_EQL  },  // CS_COLN
   { CA_NOT,  CA_BRKP },  // CS_NOT
+  { CA_TILD, CA_DEG  },  // CS_TILD
   { KC_PAST, CA_PERC },  // CS_PAST
+  { KC_PPLS, CA_MUL  },  // CS_PPLS
 };
 
 struct revived_key
@@ -108,41 +115,42 @@ struct revived_key revived_values[CS_LAST - CS_FIRST - 1] = {
   { CA_DIAE, CA_I },  // CD_ITRM
   { CA_CIRC, CA_O },  // CD_OCRC
   { CA_CIRC, CA_U },  // CD_UCRC
+  { CA_CIRC, CA_A },  // CD_ACRC
 };
 
 enum combos {
-  ESC_TOP,
-  DEL_TOP,
-  ESC_BOT,
-  DEL_BOT,
-  TAB_BOT,
+  ESC,
+  DEL,
+  TAB,
   SCLN,
   OE,
   AE,
   PLMN,
+  DIV,
+  NMLK,
 };
 
 // look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual function combos
-const uint16_t PROGMEM esc_top_combo[] = {CA_C, CA_P, COMBO_END};
-const uint16_t PROGMEM del_top_combo[] = {CA_M, CA_X, COMBO_END};
-const uint16_t PROGMEM esc_bot_combo[] = {CA_H, KC_ENT, COMBO_END};//fixme
-const uint16_t PROGMEM del_bot_combo[] = {CA_G, CS_SPC, COMBO_END};//fixme
-const uint16_t PROGMEM tab_bot_combo[] = {KC_ENT, CS_SPC, COMBO_END};
+const uint16_t PROGMEM esc_combo[] = {CA_C, CA_P, COMBO_END};
+const uint16_t PROGMEM del_combo[] = {CA_M, CA_X, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {CA_W, CA_J, COMBO_END};
 const uint16_t PROGMEM scln_combo[] = {CS_COMM, CS_DOT, COMBO_END};
 const uint16_t PROGMEM oe_combo[] = {CD_OCRC, CA_EACU, COMBO_END};
 const uint16_t PROGMEM ae_combo[] = {CA_AGRV, CA_EACU, COMBO_END};
-const uint16_t PROGMEM plmn_combo[] = {KC_PPLS, KC_MINS, COMBO_END};
+const uint16_t PROGMEM plmn_combo[] = {CS_PPLS, KC_MINS, COMBO_END};
+const uint16_t PROGMEM div_combo[] = {CS_COLN, KC_MINS, COMBO_END};
+const uint16_t PROGMEM nmlk_combo[] = {CA_LDQU, CA_RDQU, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-  [ESC_TOP] = COMBO(esc_top_combo, KC_ESC),
-  [DEL_TOP] = COMBO(del_top_combo, KC_DEL),
-  [ESC_BOT] = COMBO(esc_bot_combo, KC_ESC),
-  [DEL_BOT] = COMBO_ACTION(del_bot_combo),
-  [TAB_BOT] = COMBO_ACTION(tab_bot_combo),
+  [ESC] = COMBO(esc_combo, KC_ESC),
+  [DEL] = COMBO(del_combo, KC_DEL),
+  [TAB] = COMBO(tab_combo, KC_TAB),
   [SCLN] = COMBO_ACTION(scln_combo),
   [OE] = COMBO_ACTION(oe_combo),
-  [AE] = COMBO_ACTION(ae_combo),
-  [PLMN] = COMBO(plmn_combo, CA_PLMN),
+  [AE] = COMBO(ae_combo, CA_AE),
+  [PLMN] = COMBO_ACTION(plmn_combo),
+  [DIV] = COMBO_ACTION(div_combo),
+  [NMLK] = COMBO(nmlk_combo, KC_NLCK),
 };
 
 enum layers {
@@ -161,15 +169,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [ACC] = LAYOUT_ortho_3x10(
-    CA_CCED,         CD_ITRM,         CD_OCRC,         CA_OSTR,          CD_ETRM, CA_ENOT, CA_UGRV,       CD_UCRC,       KC_NO,         KC_NO,
+    CA_CCED,         CD_ITRM,         CD_OCRC,         CA_OSTR,          CD_ETRM, CA_ENOT, CA_UGRV,       CD_UCRC,       CD_ACRC,       KC_NO,
     LSFT_T(KC_CAPS), CD_ICRC,         CA_EACU,         CA_EGRV,          CD_ECRC, CA_CEDL, KC_NO,         CS_ESZT,       CA_AGRV,       RSFT_T(KC_CAPS),
     CA_TM,           CS_COPY,         CS_CIRC,         CS_DIAE,          KC_ENT,  CS_SPC,  CS_GRV,        CS_RNGA,       CS_DTIL,       CA_DOTA
   ),
 
   [NUM] = LAYOUT_ortho_3x10(
-    CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  KC_PPLS,   KC_P7,         KC_P8,         KC_P9,         CA_SLSH,
-    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_EURO,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
-    KC_ALGR,         CS_NOT,        CS_LABK,         CS_RABK,          CS_AT,    CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
+    CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  CS_PPLS,   KC_P7,         KC_P8,         KC_P9,         CA_SLSH,
+    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_DLR,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
+    CS_NOT,          CS_TILD,        CS_LABK,        CS_RABK,          CS_EURO,  CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
   ),
 
   [FUN] = LAYOUT_ortho_3x10(
@@ -230,24 +238,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void process_combo_event(uint8_t combo_index, bool pressed) {
   // I could also put that into a function to ease of development
   switch(combo_index) {
-    case DEL_BOT:
-      if (pressed) {
-        tap_code16(KC_BSPC);
-        register_code16(KC_DEL);
-      } else
-      {
-        unregister_code16(KC_DEL);
-      }
-      break;
-    case TAB_BOT:
-      if (pressed) {
-        tap_code16(KC_BSPC);
-        register_code16(KC_TAB);
-      } else
-      {
-        unregister_code16(KC_TAB);
-      }
-      break;
     case SCLN:
       if (pressed) {
         tap_code16(KC_BSPC);
@@ -267,12 +257,22 @@ void process_combo_event(uint8_t combo_index, bool pressed) {
         unregister_code16(CA_OE);
       }
       break;
-    case AE:
+    case PLMN:
       if (pressed) {
-        register_code16(CA_AE);
+        tap_code16(KC_BSPC);
+        register_code16(CA_PLMN);
       } else
       {
-        unregister_code16(CA_AE);
+        unregister_code16(CA_PLMN);
+      }
+      break;
+    case DIV:
+      if (pressed) {
+        tap_code16(KC_BSPC);
+        register_code16(CA_DIV);
+      } else
+      {
+        unregister_code16(CA_DIV);
       }
       break;
   }
