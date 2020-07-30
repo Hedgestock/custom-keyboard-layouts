@@ -127,7 +127,7 @@ enum combos {
   AE,
   PLMN,
   DIV,
-  NMLK,
+  // NMLK,
 };
 
 // look into https://github.com/qmk/qmk_firmware/pull/8591 for actual overlapping and dual function combos
@@ -139,7 +139,7 @@ const uint16_t PROGMEM oe_combo[] = {CD_OCRC, CA_EACU, COMBO_END};
 const uint16_t PROGMEM ae_combo[] = {CA_AGRV, CA_EACU, COMBO_END};
 const uint16_t PROGMEM plmn_combo[] = {CS_PPLS, KC_MINS, COMBO_END};
 const uint16_t PROGMEM div_combo[] = {CS_COLN, KC_MINS, COMBO_END};
-const uint16_t PROGMEM nmlk_combo[] = {CA_LDQU, CA_RDQU, COMBO_END};
+// const uint16_t PROGMEM nmlk_combo[] = {CA_LDQU, CA_RDQU, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [ESC] = COMBO(esc_combo, KC_ESC),
@@ -150,7 +150,7 @@ combo_t key_combos[COMBO_COUNT] = {
   [AE] = COMBO(ae_combo, CA_AE),
   [PLMN] = COMBO_ACTION(plmn_combo),
   [DIV] = COMBO_ACTION(div_combo),
-  [NMLK] = COMBO(nmlk_combo, KC_NLCK),
+  // [NMLK] = COMBO(nmlk_combo, KC_NLCK),
 };
 
 enum layers {
@@ -176,7 +176,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [NUM] = LAYOUT_ortho_3x10(
     CA_LDQU,         CA_RDQU,       CS_LCBR,         CS_RCBR,          CS_AMPR,  CS_PPLS,   KC_P7,         KC_P8,         KC_P9,         CA_SLSH,
-    LSFT_T(KC_CAPS), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_DLR,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
+    LSFT_T(KC_NLCK), CS_QUOT,       CS_LPRN,         CS_RPRN,          CS_DLR,  CA_MINS,   KC_P4,         KC_P5,         KC_P6,         RSFT_T(KC_P0),
     CS_NOT,          CS_TILD,        CS_LABK,        CS_RABK,          CS_EURO,  CS_COLN,   KC_P1,         KC_P2,         KC_P3,         CS_PAST
   ),
 
