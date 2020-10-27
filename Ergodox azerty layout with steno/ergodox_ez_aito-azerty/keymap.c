@@ -11,8 +11,8 @@ enum my_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-[0] = LAYOUT_ergodox_pretty(
-    KC_ESCAPE,      FR_AMP,         FR_EACU,        FR_DQUO,        FR_APOS,        FR_LPRN,        TT(2),                                          TT(2),          FR_MINS,        FR_EGRV,        FR_UNDS,        FR_CCED,        FR_AGRV,        KC_INSERT,
+  [0] = LAYOUT_ergodox_pretty(
+    KC_ESCAPE,      FR_AMP,         FR_EACU,        FR_DQUO,        FR_APOS,        FR_LPRN,        TT(2),                                          TT(4),          FR_MINS,        FR_EGRV,        FR_UNDS,        FR_CCED,        FR_AGRV,        KC_INSERT,
     KC_TAB,         FR_A,           FR_Z,           KC_E,           KC_R,           KC_T,           FR_DLR,                                         FR_ASTR,        KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           FR_CIRC,
     LSFT_T(KC_CAPSLOCK),FR_Q,       KC_S,           KC_D,           KC_F,           KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           FR_M,           RSFT_T(KC_CAPSLOCK),
     KC_LCTRL,       FR_W,           KC_X,           KC_C,           KC_V,           KC_B,           TT(1),                                          TT(1),          KC_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |LYRSWT|      |
+ *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |   A  |   O  |------|       |------|   E  |   U  |
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_BSPC, KC_NO,   STN_N1,  STN_N2,  STN_N3,  STN_N4,  STN_N5, 
        KC_NO,   KC_NO,   STN_S1,  STN_TL,  STN_PL,  STN_HL,  STN_ST1,
        KC_NO,   KC_NO,   STN_S2,  STN_KL,  STN_WL,  STN_RL,
-       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRANSPARENT,
+       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
                                            KC_NO,   KC_NO,
                                                     KC_NO,
@@ -79,9 +79,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  STN_RR,  STN_BR,  STN_GR,  STN_SR,  STN_ZR,  KC_NO,
        KC_BSPC,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
                           KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-       KC_TRANSPARENT,KC_NO,
+       KC_TRNS,  KC_NO,
        KC_NO,
-       KC_NO,   STN_E,   STN_U
+       KC_NO,    STN_E,   STN_U
+  ),
+  [4] = LAYOUT_ergodox_pretty(
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, FR_COMM,/*Opens map in monster hunter world*/   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_LSFT,        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, RSFT_T(KC_CAPSLOCK),
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_CAPSLOCK,    KC_TRANSPARENT, KC_TRANSPARENT, KC_C,           KC_V,                                                                                                           KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+                                                                                                    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+                                                                                                                    KC_DELETE,      KC_TRANSPARENT,
+                                                                                    KC_SPACE,       KC_ENTER,       KC_BSPACE,      KC_TRANSPARENT, KC_DELETE,       KC_BSPACE
   ),
 };
 
