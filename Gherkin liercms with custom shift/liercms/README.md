@@ -9,6 +9,7 @@ It uses the canadian multilingual standard layout since it is the layout support
 
 Each key on the home row is supposed to be part of the most frequent letter, then comes the upper row and lastly the lower row.
 Most used keys in a row are assigned to the middle finger (since it is only responsible for 3 keys and is supposedly relatively strong), then to the index (which should be the strongest but also in charge of 6 keys), the ring finger and finally the pinky (weakest of them all).
+Characters often used in the same digrams or trigrams are placed in opposite sides whenever possible to make them easier to type fast.
 Space and Enter can be used by the thumbs (I mostly use my right thumb for both) relieving a bit the indexes from their work.
 Dot and comma are in the middle of the keyboard, pressing them simultaneously should result in a semicolon, and shifting them respectively gives exclamation mark and question mark.
 
