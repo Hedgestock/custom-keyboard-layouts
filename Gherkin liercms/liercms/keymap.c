@@ -63,7 +63,7 @@ const uint16_t PROGMEM oe_combo[] = {CA_O, CA_E, COMBO_END};
 const uint16_t PROGMEM ae_combo[] = {CA_A, CA_E, COMBO_END};
 const uint16_t PROGMEM esc_combo[] = {CA_C, CA_P, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {CA_M, CA_X, COMBO_END};
-const uint16_t PROGMEM tab_combo[] = {KC_ENTER, CS_SPC, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_ENT, CS_SPC, COMBO_END};
 const uint16_t PROGMEM nmlk_combo[] = {CS_CENT, CS_PPLS, COMBO_END};
 const uint16_t PROGMEM lsft_combo[] = {CA_L, CA_I, COMBO_END};
 const uint16_t PROGMEM lacc_combo[] = {CA_I, CA_E, COMBO_END};
@@ -153,4 +153,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_VOLD,         KC_HOME,      KC_UP,        KC_END,       KC_LSFT, KC_LCTL, KC_F5,        KC_F6,        KC_F7,        KC_F8,
     KC_APP,          KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_TRNS, KC_TRNS, KC_F9,        KC_F10,       KC_F11,       KC_F12
   )
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  return process_record_hedgestock(keycode, record);
 };
