@@ -14,8 +14,8 @@ enum layers {
 
   TXBOLT,
 
-  MHBASE,
-  MHFUN,
+  GAME,
+  GAMEFUN,
 };
 
 enum my_keycodes {
@@ -50,10 +50,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         FR_A,           FR_Z,           FR_E,           FR_R,           FR_T,           FR_DLR,                                         FR_ASTR,        FR_Y,           FR_U,           FR_I,           FR_O,           FR_P,           FR_CIRC,
     LSFT_T(KC_CAPSLOCK),FR_Q,       FR_S,           FR_D,           FR_F,           FR_G,                                                                           FR_H,           FR_J,           FR_K,           FR_L,           FR_M,           RSFT_T(KC_CAPSLOCK),
     KC_LCTRL,       FR_W,           FR_X,           FR_C,           FR_V,           FR_B,           TT(AZERSYM),                                    TT(AZERSYM),    FR_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
-    TO(LIERCMS),    KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        FR_UGRV,
-                                                                                                    KC_HOME,        TO(MHBASE),     TO(TXBOLT),     KC_END,
-                                                                                                                    KC_SPACE,       KC_PGUP,
-                                                                                    KC_BSPACE,      KC_DELETE,      KC_ENTER,       KC_PGDOWN,      KC_ENTER,       KC_SPACE
+    FR_SUP2,        KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        FR_UGRV,
+                                                                                                    KC_HOME,        KC_END,         TO(LIERCMS),    KC_END,
+                                                                                                                    KC_PGUP,        TO(TXBOLT),
+                                                                                    KC_SPACE,       KC_ENTER,       KC_PGDOWN,      TO(GAME),       KC_DELETE,      KC_BSPACE
   ),
   [AZERSYM] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         KC_TRANSPARENT,
@@ -83,9 +83,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LSFT_T(KC_CAPSLOCK),CA_L,       CA_I,           CA_E,           CA_R,           CS_DOT,                                                                         CS_COMM,        CA_T,           CA_S,           CA_A,           CA_N,           LSFT_T(KC_CAPSLOCK),
     KC_LCTRL,       CA_F,           CA_Y,           CA_Q,           CA_H,           CS_QUOT,        TT(LIERSYM),                                    TT(LIERSYM),    CS_MINS,        CA_G,           CA_B,           CA_K,           CA_Z,           KC_LCTRL,
     TG(LIERCMS),    KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        KC_NO,
-                                                                                                    KC_NO,          TO(MHBASE),     TO(TXBOLT),     KC_NO,
-                                                                                                                    KC_NO,          KC_NO,
-                                                                                    KC_BSPACE,      KC_DELETE,      KC_NO,          KC_NO,          KC_ENTER,       KC_SPACE
+                                                                                                    KC_NO,          KC_NO,          TG(LIERCMS),    KC_NO,
+                                                                                                                    KC_NO,          TO(TXBOLT),
+                                                                                    KC_BSPACE,      KC_DELETE,      KC_NO,          TO(GAME),       KC_ENTER,       KC_SPACE
   ),
   [LIERACC] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |LYRSWT|      |
+ *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |   A  |   O  |------|       |------|   E  |   U  |
@@ -135,28 +135,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_NO,   KC_NO,   STN_S2,  STN_KL,  STN_WL,  STN_RL,                         STN_RR,  STN_BR,  STN_GR,  STN_SR,  STN_ZR,  KC_NO,
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,       KC_BSPC,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-                                           KC_NO,   TO(AZER),                       TG(TXBOLT), KC_NO,
-                                                    KC_NO,                          KC_NO,
-                                  STN_A,   STN_O,   KC_NO,                          KC_NO,    STN_E,   STN_U
+                                           KC_NO,   KC_NO,                          TO(LIERCMS), KC_NO,
+                                                    KC_NO,                          TG(TXBOLT),
+                                  STN_A,   STN_O,   KC_NO,                          TO(GAME), STN_E,   STN_U
   ),
-//Monster Hunter
-  [MHBASE] = LAYOUT_ergodox_pretty(
-    KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_6,           KC_M,/*Opens map in monster hunter world*/      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    KC_LSFT,        KC_A,           KC_S,           KC_D,           KC_F,           KC_7,                                                                           KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    KC_LCTRL,       KC_Z,           KC_X,           KC_C,           KC_V,           KC_8,           KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-    TO(LIERCMS),    KC_NO,          KC_NO,          KC_N,           MO(MHFUN),                                                                                                      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
-                                        /*          ^^^^           */                               KC_NO,          TG(MHBASE),     TO(TXBOLT),     KC_NO,
-                                        /* Used in menu navigation */                                               KC_NO,          KC_NO,
-                                                                                    KC_SPACE,       KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
+//Games
+  [GAME] = LAYOUT_ergodox_pretty(
+    KC_ESCAPE,      FR_AMP,         FR_EACU,        FR_DQUO,        FR_APOS,        FR_LPRN,        TT(AZERFUN),                                    TT(AZERFUN),    FR_MINS,        FR_EGRV,        FR_UNDS,        FR_CCED,        FR_AGRV,        KC_INSERT,
+    KC_TAB,         FR_A,           FR_Z,           FR_E,           FR_R,           FR_T,           FR_DLR,                                         FR_ASTR,        FR_Y,           FR_U,           FR_I,           FR_O,           FR_P,           FR_CIRC,
+    KC_LSFT,        FR_Q,           FR_S,           FR_D,           FR_F,           FR_G,                                                                           FR_H,           FR_J,           FR_K,           FR_L,           FR_M,           RSFT_T(KC_CAPSLOCK),
+    KC_LCTRL,       FR_W,           FR_X,           FR_C,           FR_V,           FR_B,           TT(AZERSYM),                                    TT(AZERSYM),    FR_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTRL,
+    MO(GAMEFUN),    KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        FR_UGRV,
+                                                                                                    KC_HOME,        KC_END,         TO(LIERCMS),    KC_END,
+                                                                                                                    KC_PGUP,        TO(TXBOLT),
+                                                                                    KC_SPACE,       KC_ENTER,       KC_PGDOWN,      TG(GAME),       KC_DELETE,      KC_BSPACE
   ),
-  [MHFUN] = LAYOUT_ergodox_pretty(
-    KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+  [GAMEFUN] = LAYOUT_ergodox_pretty(
+    KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F9,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_F6,          KC_F10,                                         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_F7,                                                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_F8,          KC_F11,                                         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                                                    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+                                                                                                    KC_F12,         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -276,12 +276,12 @@ uint32_t layer_state_set_user(uint32_t state)
     ergodox_right_led_2_on();
   }
 
-  if (is_layer_on(state, MHBASE))
+  if (is_layer_on(state, GAME))
   {
     ergodox_right_led_1_set(dim);
     ergodox_right_led_1_on();
   }
-  if (is_layer_on(state, MHFUN))
+  if (is_layer_on(state, GAMEFUN))
   {
     ergodox_right_led_2_set(dim);
     ergodox_right_led_2_on();
