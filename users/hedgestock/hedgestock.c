@@ -75,7 +75,7 @@ bool custom_shift(uint16_t keycode, keyrecord_t *record){
   const struct custom_shifted_key key = shifted_values[keycode - CS_FIRST - 1];
   if (record->event.pressed) {
     uint8_t temp_mods = get_mods();
-    if (temp_mods == MOD_BIT(KC_LSHIFT) || temp_mods == MOD_BIT(KC_RSHIFT) || (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))) {
+    if (temp_mods == MOD_BIT(KC_LSFT) || temp_mods == MOD_BIT(KC_RSFT) || host_keyboard_led_state().caps_lock) {
       clear_mods();
       register_code16(key.shifted_keycode);
       set_mods(temp_mods);

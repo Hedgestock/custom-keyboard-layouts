@@ -1,0 +1,7 @@
+#pragma once
+
+#define ORYX_CONFIGURATOR
+
+#define PERMISSIVE_HOLD
+
+#define CUSTOM_SAFE_RANGE SAFE_RANGE

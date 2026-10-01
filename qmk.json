@@ -1,0 +1,8 @@
+{
+    "userspace_version": "1.1",
+    "build_targets": [
+        ["ergodox_ez/base", "azerty-liercms"],
+        ["40percentclub/gherkin", "liercms"],
+        ["40percentclub/gherkin", "macropad"]
+    ]
+}

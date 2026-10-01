@@ -66,6 +66,7 @@ enum custom_shift_keycodes {
   CS_PSLS,
   CS_SPC,
   CS_LAST,
+  KEYMAP_SAFE_RANGE,
 };
 
 bool process_record_hedgestock(uint16_t keycode, keyrecord_t *record);

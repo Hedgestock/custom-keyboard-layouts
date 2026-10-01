@@ -91,7 +91,7 @@ const uint16_t PROGMEM f11_combo[] = {CA_W, CA_X, COMBO_END};
 const uint16_t PROGMEM f12_combo[] = {CA_J, CA_X, COMBO_END};
 
 
-combo_t key_combos[COMBO_COUNT] = {
+combo_t key_combos[] = {
   [COMM_DOT_SCLN] = COMBO(scln_combo, CA_SCLN),
   [PPLS_MINS_PLMN] = COMBO(plmn_combo, CA_PLMN),
   [COLN_MINS_DIV] = COMBO(div_combo, CA_DIV),
@@ -100,7 +100,7 @@ combo_t key_combos[COMBO_COUNT] = {
   [C_P_ESC] = COMBO(esc_combo, KC_ESC),
   [X_M_DEL] = COMBO(del_combo, KC_DEL),
   [ENT_SPC_TAB] = COMBO(tab_combo, KC_TAB),
-  [CE_NMLK] = COMBO(nmlk_combo, KC_NLCK),
+  [CE_NMLK] = COMBO(nmlk_combo, KC_NUM),
   [L_I_LSFT] = COMBO(lsft_combo, LSFT_T(KC_CAPS)),
   [I_E_ACC] = COMBO(lacc_combo, MO(ACC)),
   [L_I_E_NUM] = COMBO(lnum_combo, MO(NUM)),
