@@ -50,9 +50,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSFT,        FR_Q,           FR_S,           FR_D,           FR_F,           FR_G,                                                                           FR_H,           FR_J,           FR_K,           FR_L,           FR_M,           RSFT_T(KC_CAPS),
     KC_LCTL,        FR_W,           FR_X,           FR_C,           FR_V,           FR_B,           TT(AZERSYM),                                    TT(AZERSYM),    FR_N,           FR_COMM,        FR_SCLN,        FR_COLN,        FR_EXLM,        KC_RCTL,
     TT(GAMEFUN),        KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        FR_UGRV,
-                                                                                                    KC_HOME,        KC_END,         TO(LIERCMS),    KC_END,
+                                                                                                    KC_HOME,        KC_END,         TO(LIERCMS),    KC_PSCR,
                                                                                                                     KC_PGUP,        TO(TXBOLT),
-                                                                                    KC_SPACE,       KC_ENTER,       KC_PGDN,        TO(GAME),       KC_DELETE,      KC_BSPC
+                                                                                    KC_SPACE,       KC_ENTER,       KC_PGDN,        KC_APPLICATION, KC_DELETE,      KC_BSPC
   ),
   [AZERSYM] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         KC_TRANSPARENT,
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, KC_PGDN,        KC_LEFT,        KC_DOWN,        KC_RIGHT,       LGUI(LSFT(KC_S)),                                                               KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, LCTL(KC_S),     LCTL(KC_X),     LCTL(KC_C),     LCTL(KC_V),     LCTL(FR_Z),     LCTL(KC_Y),                                     KC_CALCULATOR,  KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_APPLICATION, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                                                    KC_TRANSPARENT, XMAS,          KC_TRANSPARENT, KC_TRANSPARENT,
+                                                                                                    KC_TRANSPARENT, XMAS,           KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -95,9 +95,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LSFT_T(KC_CAPS),CA_L,           CA_I,           CA_E,           CA_R,           CS_DOT,                                                                         CS_COMM,        CA_T,           CA_S,           CA_A,           CA_N,           LSFT_T(KC_CAPS),
     KC_LCTL,        CA_F,           CA_Y,           CA_Q,           CA_H,           CS_QUOT,        TT(LIERSYM),                                    TT(LIERSYM),    CS_MINS,        CA_G,           CA_B,           CA_K,           CA_Z,           KC_LCTL,
     TG(LIERCMS),    KC_LALT,        KC_LGUI,        KC_LEFT,        KC_RIGHT,                                                                                                       KC_DOWN,        KC_UP,          KC_RGUI,        KC_RALT,        KC_NO,
-                                                                                                    KC_NO,          KC_NO,          TG(LIERCMS),    KC_NO,
-                                                                                                                    KC_NO,          TO(TXBOLT),
-                                                                                    KC_BSPC,        KC_DELETE,      KC_NO,          TO(GAME),       KC_ENTER,       KC_SPACE
+                                                                                                    KC_HOME,        KC_END,         TG(LIERCMS),    KC_PSCR,
+                                                                                                                    KC_PGUP,        TO(TXBOLT),
+                                                                                    KC_SPACE,       KC_ENTER,       KC_PGDN,        KC_APPLICATION, KC_DELETE,      KC_BSPC
   ),
   [LIERACC] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
                                            KC_NO,   KC_NO,                          TO(LIERCMS), KC_NO,
                                                     KC_NO,                          TG(TXBOLT),
-                                  STN_A,   STN_O,   KC_NO,                          TO(GAME), STN_E,   STN_U
+                                  STN_A,   STN_O,   KC_NO,                          KC_NO,   STN_E,   STN_U
   ),
 };
 
